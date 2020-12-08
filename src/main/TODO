@@ -1,0 +1,29 @@
+ServerSocket serverSocket;
+        try {
+            serverSocket = new ServerSocket(port);
+            logger.info("Server started on port " + port);
+
+            Socket socket = serverSocket.accept();
+
+            InputStream is = socket.getInputStream();
+            OutputStream os = socket.getOutputStream();
+
+            Path htmlPath = Paths.get("src/main/java/com/html/example.html");
+
+            final String CRLF = "\n\r";
+            String message = new String(Files.readAllBytes(htmlPath));;
+            String messageWithHeader = "HTTP/1.1 200 OK" + CRLF +
+                            "Content-Length: " + message.getBytes().length + CRLF + "\n" +
+                    message + CRLF + CRLF;
+
+            os.write(messageWithHeader.getBytes(StandardCharsets.UTF_8));
+
+            is.close();
+            os.close();
+            socket.close();
+
+            serverSocket.close();
+            logger.info("Server closed from port " + port);
+        } catch (IOException e) {
+            logger.error("Server could not be started on port " + port + " because of error:" + e);
+        }
