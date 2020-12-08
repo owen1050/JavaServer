@@ -26,11 +26,12 @@ public class socketThread extends Thread{
 
         try {
             InputStream is = this.socket.getInputStream();
-
-            String request = isToStr(is);
-            logger.info("Request:" + request);
-
             OutputStream os = this.socket.getOutputStream();
+
+            String request = isToStr(is);//todo turn this request string into an object to get message and such
+            //logger.info("Request:" + request);
+
+            //TODO impliment based off request, responde differently
 
             Path htmlPath = Paths.get("src/main/java/com/html/example.html");
             String message = new String(Files.readAllBytes(htmlPath));

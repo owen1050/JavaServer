@@ -13,6 +13,7 @@ public class serverThread extends Thread{
 
     private static final Logger logger = LogManager.getLogger(serverThread.class);
     int port;
+    int count;
 
     public serverThread(int port){
         this.port = port;
@@ -28,6 +29,8 @@ public class serverThread extends Thread{
                 Socket socket = serverSocket.accept();
                 socketThread st = new socketThread(socket);
                 st.start();
+                count = count + 1;
+                logger.info("Request #" + count);
             }
 
             serverSocket.close();
